@@ -1,0 +1,540 @@
+/* Sage Green Theme Variables - Now includes centralized table colors */
+
+/* Body and General Styling */
+body {
+  background: linear-gradient(135deg, var(--sage-light) 0%, #F8FBF6 100%);
+  color: var(--sage-text);
+  font-family: 'Georgia', serif;
+}
+
+.fullcontent {
+  background: linear-gradient(135deg, var(--sage-light) 0%, #F8FBF6 100%);
+  text-align: justify;  
+  padding: 20px;
+  border-radius: 10px;
+}
+
+p {
+  color: var(--sage-text);
+  margin: 10px 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Headings with Sage Style */
+/* Estilos para encabezados secundarios */
+h2, h3, h4, h5, h6 {
+  color: var(--sage-dark);
+  border-bottom: 2px solid var(--sage-primary);
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+/* Nombre del autor - sin border */
+h6[style*="text-align:center"] {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 8px !important;
+  font-size: 16px;
+  color: var(--sage-dark);
+  font-weight: 600;
+}
+
+/* Título principal - sin border conflictivo */
+h1 {
+  position: -webkit-sticky; 
+  position: sticky;
+  top: 20px;
+  background: linear-gradient(90deg, var(--sage-primary) 0%, var(--sage-secondary) 100%);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(108, 127, 92, 0.3);
+  z-index: 1000;
+  margin-bottom: 25px;
+  border: none;
+  text-align: center;
+}
+
+/* ============= GALLERY FIGURE STYLING =============
+   Figuras compactas con efecto galería
+*/
+.plotly-graph-div .svg-container {
+  border: 10px solid var(--figure-border);
+  margin: 25px auto  !important;
+  box-shadow: 0 6px 20px var(--figure-shadow);
+  border-color: var(--figure-primary);
+}
+
+
+
+/* Matplotlib figure container - Gallery Style */
+.matplotlib-figure-custom {
+  border: 2px solid var(--figure-border);
+  border-radius: 8px;
+  padding: 8px;
+  margin: 12px auto;
+  background: var(--figure-background);
+  box-shadow: 0 3px 10px var(--figure-shadow);
+  text-align: center;
+  width: 90%;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.matplotlib-figure-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--figure-shadow);
+  border-color: var(--figure-primary);
+}
+
+.matplotlib-figure-custom::after {
+  content: "🔍 Clic para ampliar";
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: rgba(108, 127, 92, 0.8);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.matplotlib-figure-custom:hover::after {
+  opacity: 1;
+}
+
+/* Override matplotlib default colors with CSS variables */
+.matplotlib-figure-custom svg,
+.matplotlib-figure-custom canvas {
+  background-color: var(--matplotlib-face-color) !important;
+}
+
+/* Style figure titles and text */
+.matplotlib-figure-custom .figure-title,
+.plot-container .plot-title {
+  color: var(--matplotlib-text-color);
+  font-weight: bold;
+}
+
+/* ============================================
+   CENTRALIZED TABLE COLOR CONFIGURATION
+   ============================================
+   Modifica estos valores para cambiar todos los colores de tablas
+*/
+:root {
+  /* Existing sage colors */
+  --sage-primary: #9CAF88;
+  --sage-secondary: #A8B99C;
+  --sage-light: #E8F4E6;
+  --sage-dark: #6B7F5C;
+  --sage-accent: #87A96B;
+  --sage-text: #2D3B2A;
+  
+  /* ========== CENTRALIZED TABLE COLORS ==========
+     CHANGE THESE TO UPDATE ALL TABLES IN THE DOCUMENT
+     
+     CURRENT: Sage Green Theme
+  */
+  --table-border-color: var(--sage-primary);
+  --table-background: white;
+  --table-header-bg-start: var(--sage-primary);
+  --table-header-bg-end: var(--sage-secondary);
+  --table-header-text: white;
+  --table-cell-border: var(--sage-light);
+  --table-stripe-bg: var(--sage-light);
+  --table-hover-bg: var(--sage-secondary);
+  --table-hover-text: white;
+  --table-shadow: rgba(108, 127, 92, 0.2);
+
+  /* ========== CENTRALIZED PYTHON FIGURE COLORS ==========
+     🎨 CHANGE THESE TO UPDATE ALL MATPLOTLIB/SEABORN/PLOTLY FIGURES
+     
+     HOW TO CHANGE COLORS:
+     1. Modify the --figure-* variables below
+     2. Re-render the Quarto document
+     3. All charts will automatically use the new colors!
+     
+     CURRENT THEME: Sage Green
+  */
+  --figure-primary: #9CAF88;
+  --figure-secondary: #A8B99C;
+  --figure-accent: #87A96B;
+  --figure-dark: #6B7F5C;
+  --figure-light: #E8F4E6;
+  --figure-complement: #B8C9A4;
+  
+  /* Figure container styling */
+  --figure-border: var(--figure-primary);
+  --figure-background: white;
+  --figure-shadow: rgba(108, 127, 92, 0.2);
+  
+  /* Matplotlib specific colors */
+  --matplotlib-face-color: #F8FBF6;
+  --matplotlib-edge-color: var(--figure-dark);
+  --matplotlib-grid-color: var(--figure-secondary);
+  --matplotlib-text-color: var(--figure-dark);
+  
+  /* Color palette for charts (6 colors) */
+  --chart-color-1: var(--figure-primary);
+  --chart-color-2: var(--figure-secondary);
+  --chart-color-3: var(--figure-accent);
+  --chart-color-4: var(--figure-dark);
+  --chart-color-5: var(--figure-light);
+  --chart-color-6: var(--figure-complement);
+  
+  
+}
+
+/* Table Styling - Uses centralized colors */
+.table, 
+table,
+#datasets_table,
+#recomendaciones_table {
+  border: 2px solid var(--table-border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px var(--table-shadow);
+  margin: 20px auto;
+  background: var(--table-background);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th,
+table th,
+#datasets_table th,
+#recomendaciones_table th {
+  background: linear-gradient(90deg, var(--table-header-bg-start) 0%, var(--table-header-bg-end) 100%);
+  color: var(--table-header-text);
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  text-align: left;
+}
+
+.table td,
+table td,
+#datasets_table td,
+#recomendaciones_table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--table-cell-border);
+  vertical-align: top;
+}
+
+.table-striped tbody tr:nth-of-type(odd),
+table tbody tr:nth-of-type(odd),
+#datasets_table tbody tr:nth-of-type(odd),
+#recomendaciones_table tbody tr:nth-of-type(odd) {
+  background-color: var(--table-stripe-bg);
+}
+
+.table-hover tbody tr:hover,
+table tbody tr:hover,
+#datasets_table tbody tr:hover,
+#recomendaciones_table tbody tr:hover {
+  background-color: var(--table-hover-bg);
+  color: var(--table-hover-text);
+  transition: all 0.3s ease;
+}
+
+/* First and last cell border radius */
+.table th:first-child,
+table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.table th:last-child,
+table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.table tbody tr:last-child td:first-child,
+table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.table tbody tr:last-child td:last-child,
+table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+/* Icons and Links */
+.icon-link {
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.icon-link:hover {
+  opacity: 0.7;
+  transform: scale(1.1);
+}
+
+a {
+  text-decoration: none;
+  color: var(--sage-dark);
+}
+
+a:hover {
+  text-decoration: none;
+  color: var(--sage-primary);
+}
+
+.btn-light {
+  background: linear-gradient(45deg, var(--sage-light) 0%, white 100%);
+  border: 2px solid var(--sage-primary);
+  color: var(--sage-dark);
+  transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+  background: linear-gradient(45deg, var(--sage-primary) 0%, var(--sage-secondary) 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 127, 92, 0.3);
+}
+
+/* Business Question Box */
+div[style*="color:red"] {
+  background: linear-gradient(135deg, var(--sage-light) 0%, white 100%);
+  border: 3px solid var(--sage-primary) !important;
+  color: var(--sage-dark) !important;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(108, 127, 92, 0.2);
+  margin: 25px auto;
+}
+
+/* Code Blocks */
+pre, code {
+  background: var(--sage-light);
+  border: 1px solid var(--sage-primary);
+  border-radius: 6px;
+}
+
+/* Scroll to Top Button */
+#scrollToTopContainer button {
+  background: linear-gradient(45deg, var(--sage-primary) 0%, var(--sage-secondary) 100%);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  box-shadow: 0 4px 15px rgba(108, 127, 92, 0.4);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+#scrollToTopContainer button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(108, 127, 92, 0.5);
+}
+
+/* Code-fold buttons styling */
+.code-tools-button {
+  background: var(--sage-primary) !important;
+  color: white !important;
+  border: 1px solid var(--sage-dark) !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+  margin: 2px !important;
+}
+
+.code-tools-button:hover {
+  background: var(--sage-dark) !important;
+  transform: translateY(-1px);
+}
+
+.code-with-filename .code-with-filename-file {
+  background: var(--sage-light) !important;
+  border: 1px solid var(--sage-primary) !important;
+}
+
+/* Navbar code tools */
+.navbar .quarto-navbar-tools {
+  background: var(--sage-primary) !important;
+}
+
+.navbar .quarto-navbar-tools .quarto-navigation-tool {
+  color: white !important;
+}
+
+.navbar .quarto-navbar-tools .quarto-navigation-tool:hover {
+  background: var(--sage-dark) !important;
+}
+
+/* Quarto Code Folding Enhancement */
+.quarto-code-folding .btn-group {
+  margin-bottom: 10px;
+}
+
+.quarto-code-folding .btn {
+  background-color: #9CAF88 !important;
+  color: white !important;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.quarto-code-folding .btn:hover {
+  background-color: #6B7F5C !important;
+  transform: translateY(-1px);
+}
+
+/* Code block styling */
+.sourceCode {
+  background-color: #E8F4E6 !important;
+
+  padding: 10px !important;
+}
+
+/* Code tools in navbar */
+.navbar-tool-button {
+  background-color: #9CAF88 !important;
+  border-color: #6B7F5C !important;
+  color: white !important;
+}
+
+.navbar-tool-button:hover {
+  background-color: #6B7F5C !important;
+}
+
+
+
+/* ============= MODAL ZOOM SYSTEM =============
+   Sistema de zoom para figuras en modal
+*/
+.zoom-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.zoom-modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.zoom-content {
+  position: relative;
+  max-width: 95%;
+  max-height: 95%;
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: scaleIn 0.3s ease;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 300px;
+  min-height: 200px;
+}
+
+.zoom-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: var(--sage-primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.zoom-close:hover {
+  background: var(--sage-dark);
+  transform: scale(1.1);
+}
+
+.zoom-content img,
+.zoom-content svg,
+.zoom-content canvas {
+  max-width: calc(100% - 20px);
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+  background: transparent;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Asegurar que el contenido del modal sea visible */
+.zoom-content * {
+  pointer-events: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Forzar que todo el contenido esté dentro del contenedor */
+.zoom-content > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Asegurar que las figuras sean clickeables */
+.matplotlib-figure,
+.plot-container,
+.plotly-graph-div {
+  cursor: pointer !important;
+}
+
+.matplotlib-figure *,
+.plot-container *,
+.plotly-graph-div * {
+  pointer-events: none; /* Evitar interferencias con elementos internos */
+}
+
+.matplotlib-figure {
+  pointer-events: all; /* Permitir clicks en el contenedor principal */
+}
+
+/* Mejorar la responsividad de figuras */
+.matplotlib-figure img,
+.matplotlib-figure svg,
+.matplotlib-figure canvas {
+  max-width: 100%;
+  height: auto;
+}

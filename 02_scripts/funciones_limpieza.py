@@ -362,3 +362,297 @@ def tabla_completa(df_merged):
                                           ordered=True)
 
     return df_completo
+
+
+def tabla_completa2(df_merged):
+    import pandas as pd
+    import re
+
+    paises = {
+        'España', 'Italia', 'Bulagria', 'Turquía', 'Bielorrusia', 'Francia',
+        'Alemania', 'Georgia', 'Albania','Letonia', 'Armenia', 'Rusia', 'Ucrania', 
+        'Rumania', 'Polonia', 'Reino Unido', 'Austria', 'Moldavia', 'Azerbaiyán',
+        'Suecia', 'Bélgica', 'Serbia', 'Noruega', 'Irlanda', 'Finlandia', 'Israel'
+    }
+
+    df_completo = pd.DataFrame(columns=[
+        'Genero', 'Categoria', 'Fecha', 'Medalla',
+        'Nombre', 'Apellido', 'Pais',
+        'Arrancada', 'Dos_Tiempos', 'Total'
+    ])
+
+    for _, row in df_merged.iterrows():
+
+        eventos = ''.join(row['Eventos'].strip().split()[0])
+
+        fecha_str = row['Eventos'].split('(')[1].split(')')[0]
+        dia, mes = fecha_str.split('.')
+        fecha = pd.to_datetime(f"{row['Año']}-{mes}-{dia}")
+
+        for medalla, atleta in zip(
+            ['Oro', 'Plata', 'Bronce'],
+            [row['Oro'], row['Plata'], row['Bronce']]
+        ):
+
+            atleta = re.sub(r"\[.*?\]", '', atleta)
+
+            # 🔹 TEXTO SIN NÚMEROS
+            texto = re.split(r'\d', atleta)[0].strip()
+            partes = texto.split()
+
+            nombre = partes[0]
+
+            # 🔹 DETECTAR PAÍS DESDE EL FINAL
+            pais = None
+            for i in range(1, len(partes)):
+                posible_pais = ' '.join(partes[i:])
+                if posible_pais in paises:
+                    apellido = ' '.join(partes[1:i])
+                    pais = posible_pais
+                    break
+
+            # 🔹 FALLBACK (por seguridad)
+            if pais is None:
+                apellido = ' '.join(partes[1:-1])
+                pais = partes[-1]
+
+            # 🔹 RESULTADOS NUMÉRICOS
+            fila_digito = re.findall(r'\d+', atleta)
+            arrancada, dos_tiempos, total = map(int, fila_digito[:3])
+
+            fila = pd.DataFrame([{
+                'Genero': row['Genero'],
+                'Categoria': eventos,
+                'Fecha': fecha,
+                'Medalla': medalla,
+                'Nombre': nombre,
+                'Apellido': apellido,
+                'Pais': pais,
+                'Arrancada': arrancada,
+                'Dos_Tiempos': dos_tiempos,
+                'Total': total
+            }])
+
+            df_completo = pd.concat([df_completo, fila], ignore_index=True)
+
+    orden_medalla = ['Oro', 'Plata', 'Bronce']
+    df_completo['Medalla'] = pd.Categorical(
+        df_completo['Medalla'],
+        categories=orden_medalla,
+        ordered=True
+    )
+
+    return df_completo
+
+
+def px_box_with_pvalue(df, cat_var, num_var, title=None, color_palette=None):
+    import plotly.express as px
+    import statsmodels.stats.weightstats as ws
+    import statsmodels.api as sm
+    from statsmodels.formula.api import ols
+
+    data = df[[cat_var, num_var]].dropna()
+    grupos = data.groupby(cat_var)[num_var]
+
+    if len(grupos) == 2:
+        g1, g2 = [g for _, g in grupos]
+        t_stat, p_value, _ = ws.ttest_ind(g1, g2, usevar="unequal")
+        test_name = "t-test"
+    else:
+        modelo = ols(f"{num_var} ~ C({cat_var})", data=data).fit()
+        anova = sm.stats.anova_lm(modelo, typ=2)
+        p_value = anova["PR(>F)"][0]
+        test_name = "ANOVA"
+
+    fig = px.box(
+        data, 
+        x=cat_var, 
+        y=num_var, 
+        color=cat_var,
+        color_discrete_sequence=color_palette,
+        title=title or f"{num_var} por {cat_var}",
+        points="outliers"
+    )
+    
+    fig.add_annotation(
+        x=0.5, y=data[num_var].max() * 0.95,
+        text=f"{test_name} p-value = {p_value:.4f}",
+        showarrow=False, font=dict(size=12, color="darkred"),
+        bgcolor="rgba(255,255,255,0.8)", bordercolor="darkred", borderwidth=1
+    )
+    
+    # Fondo blanco y cuadrículas suaves
+    fig.update_layout(
+        plot_bgcolor="white",
+        paper_bgcolor="white"
+    )
+    fig.update_xaxes(showgrid=True, gridcolor="lightgray")
+    fig.update_yaxes(showgrid=True, gridcolor="lightgray")
+    
+    return fig
+
+def px_box(df, cat_var, num_var, title=None, color_palette=None):
+    import plotly.express as px
+
+    data = df[[cat_var, num_var]].dropna()
+
+    fig = px.box(
+        data,
+        x=cat_var,
+        y=num_var,
+        color=cat_var,
+        color_discrete_sequence=color_palette,
+        title=title or f"{num_var} por {cat_var}",
+        points="outliers"
+    )
+
+    # Fondo blanco y cuadrículas suaves
+    fig.update_layout(
+        plot_bgcolor="white",
+        paper_bgcolor="white"
+    )
+    fig.update_xaxes(showgrid=True, gridcolor="lightgray")
+    fig.update_yaxes(showgrid=True, gridcolor="lightgray")
+
+    return fig
+
+
+def px_countplot_by_category(df, cat_var, title=None, color_palette=None):
+    import plotly.express as px
+
+    # Conteo por categoría
+    counts = df[cat_var].value_counts(ascending=True).reset_index()
+    counts.columns = [cat_var, "Conteo"]
+
+    fig = px.bar(
+        counts,
+        x="Conteo",
+        y=cat_var,
+        orientation="h",
+        title=title or f"Total de medallas por {cat_var}",
+        color_discrete_sequence=color_palette
+    )
+
+    # Hover limpio
+    fig.update_traces(
+        hovertemplate=f"{cat_var}: %{{y}}<br>Total: %{{x}}<extra></extra>",
+        text=None
+    )
+
+    fig.update_layout(
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        showlegend=False
+    )
+
+    fig.update_xaxes(title="Medallas", showgrid=True, gridcolor="lightgray")
+    fig.update_yaxes(title="", showgrid=False)
+    fig.update_layout(width=800, height=400)
+
+    return fig
+
+
+
+
+def px_total_por_fecha_por_año(df, fecha_col, total_col, genero_col, color_palette=None):
+    """
+    Crea gráficos de línea del total de 'total_col' por mes-día, separados por género.
+    Cada línea corresponde a un año diferente.
+    El eje X muestra solo mes y día (MM-DD), ordenadas correctamente.
+    Retorna un diccionario de figuras con claves por género.
+    """
+    # Convertir columna de fecha a datetime
+    df[fecha_col] = pd.to_datetime(df[fecha_col], errors='coerce')
+    df = df.dropna(subset=[fecha_col])
+    
+    # Crear columna de Año
+    df['Año'] = df[fecha_col].dt.year
+    
+    # Crear columna de Mes-Día como datetime con año fijo (2000)
+    df['Mes-Día'] = df[fecha_col].apply(lambda x: pd.Timestamp(year=2000, month=x.month, day=x.day))
+    
+    figuras = []
+    
+    for genero in df[genero_col].unique():
+        df_genero = df[df[genero_col] == genero]
+        if df_genero.empty:
+            continue
+        
+        # Agrupar por Mes-Día y Año sumando el total
+        df_agrupado = df_genero.groupby(['Mes-Día', 'Año'], as_index=False)[total_col].sum()
+        df_agrupado = df_agrupado.sort_values('Mes-Día')
+        
+        # Graficar
+        fig = px.line(
+            df_agrupado,
+            x='Mes-Día',
+            y=total_col,
+            color='Año',
+            markers=True,
+            title=f'Total de puntos por Fecha - {genero}',
+            color_discrete_sequence=color_palette
+        )
+        
+        # Formatear eje X para mostrar solo MM-DD
+        fig.update_xaxes(
+            tickformat="%m-%d",
+            showgrid=True,
+            gridcolor='lightgray'
+        )
+        fig.update_yaxes(showgrid=True, gridcolor='lightgray')
+        fig.update_layout(
+            yaxis_title='Total (promedio)',
+            xaxis_title='Mes-Día',
+            plot_bgcolor='white',
+            paper_bgcolor='white'
+        )
+        
+        figuras.append(fig)
+    
+    return figuras
+
+
+def top_n_bar(df, nombre_col, total_col, n=10, color_palette=None, titulo='Top N'):
+    """
+    Crea un gráfico de barras de los Top N valores de un DataFrame, con cada barra de un color distinto.
+    
+    Parámetros:
+    -----------
+    df : pd.DataFrame
+        DataFrame con los datos.
+    nombre_col : str
+        Nombre de la columna que contiene los nombres.
+    total_col : str
+        Nombre de la columna que contiene los valores a graficar.
+    n : int
+        Número de top valores a mostrar.
+    color_palette : list
+        Paleta de colores para las barras.
+    titulo : str
+        Título del gráfico.
+    """
+    
+    # Ordenar por total descendente y tomar top n
+    df_top = df.groupby(nombre_col, as_index=False)[total_col].sum()
+    df_top = df_top.sort_values(by=total_col, ascending=False).head(n)
+    
+    fig = px.bar(
+        df_top,
+        x=nombre_col,
+        y=total_col,
+        text=total_col,
+        color=nombre_col,
+        color_discrete_sequence=color_palette,
+        title=titulo
+    )
+    
+    fig.update_layout(
+        yaxis_title=total_col,
+        xaxis_title=nombre_col,
+        plot_bgcolor='white',
+        paper_bgcolor='white'
+    )
+    fig.update_xaxes(showgrid=True, gridcolor='lightgray')
+    fig.update_yaxes(showgrid=True, gridcolor='lightgray')
+    
+    fig.show()
