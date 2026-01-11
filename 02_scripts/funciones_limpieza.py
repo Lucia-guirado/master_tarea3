@@ -303,7 +303,13 @@ def tabla_completa(df_merged):
         - 'Dos_Tiempos': Resultado de los dos tiempos.
         - 'Total': Total del resultado.
     """
-    
+    paises = {
+        'España', 'Italia', 'Bulagria', 'Turquía', 'Bielorrusia', 'Francia',
+        'Alemania', 'Georgia', 'Albania','Letonia', 'Armenia', 'Rusia', 'Ucrania', 
+        'Rumania', 'Polonia', 'Reino Unido', 'Austria', 'Moldavia', 'Azerbaiyán',
+        'Suecia', 'Bélgica', 'Serbia', 'Noruega', 'Irlanda', 'Finlandia', 'Israel'
+    }
+
     # Crear DataFrame vacío para almacenar los resultados desagregados
     df_completo = pd.DataFrame(columns=['Genero', 'Categoria', 'Fecha', 'Medalla', 'Nombre', 'Apellido', 'Pais', 
                                            'Arrancada', 'Dos_Tiempos', 'Total'])
@@ -324,17 +330,29 @@ def tabla_completa(df_merged):
             # Eliminar cualquier texto entre corchetes
             atleta = re.sub(r"\[.*?\]", '', atleta)
 
-            # Extraer nombre, apellido y país
-            fila_str = re.split(r'\d', atleta)[0].strip().split()
-            nombre = fila_str[0]
-            apellido = fila_str[1]
-            pais = ' '.join(fila_str[2:])
+            # 🔹 TEXTO SIN NÚMEROS
+            texto = re.split(r'\d', atleta)[0].strip()
+            partes = texto.split()
 
-            # Extraer resultados numéricos
+            nombre = partes[0]
+
+            # 🔹 DETECTAR PAÍS DESDE EL FINAL
+            pais = None
+            for i in range(1, len(partes)):
+                posible_pais = ' '.join(partes[i:])
+                if posible_pais in paises:
+                    apellido = ' '.join(partes[1:i])
+                    pais = posible_pais
+                    break
+
+            # 🔹 FALLBACK (por seguridad)
+            if pais is None:
+                apellido = ' '.join(partes[1:-1])
+                pais = partes[-1]
+
+            # 🔹 RESULTADOS NUMÉRICOS
             fila_digito = re.findall(r'\d+', atleta)
-            arrancada = fila_digito[0] 
-            dos_tiempos = fila_digito[1] 
-            total = fila_digito[2] 
+            arrancada, dos_tiempos, total = map(int, fila_digito[:3])
 
             # Crear fila individual y agregarla al DataFrame
             fila = pd.DataFrame([{
