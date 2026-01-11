@@ -333,59 +333,59 @@ Para ello se ha dividido en dos fases, la primera siendo del periodo 2019-2020 y
 
 # Roadmap del Proyecto {#roadmap}
 
-```{=html}
+```{=html}        
 <div style="display:flex; justify-content:center; margin: 40px 0;">
     <div style="display:flex; flex-direction:column; gap:0;">
         <!-- Preparar datos -->
         <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em;">
             <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
-                <div style="width:1.8em; height:1.8em; border-radius:50%; background:#4F8A8B; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">1</div>
-                <div style="width:3px; height:80px; background:#4F8A8B;"></div>
+                <div style="width:1.8em; height:1.8em; border-radius:50%; background:#6B7B8C; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">1</div>
+                <div style="width:3px; height:80px; background:#6B7B8C;"></div>
             </div>
             <div style="padding-top:0.3em;">
-                <div style="font-weight:bold; color:#4F8A8B; font-size:1.1em;">Preparar datos</div>
-                <div style="font-size:0.9em; color:#666;">Limpieza y variables</div>
-            </div>
-        </div>
-        
-        <!-- Explorar -->
-        <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em; margin-left:0;">
-            <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
-                <div style="width:1.8em; height:1.8em; border-radius:50%; background:#4F8A8B; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">2</div>
-                <div style="width:3px; height:80px; background:#4F8A8B;"></div>
-            </div>
-            <div style="padding-top:0.3em;">
-                <div style="font-weight:bold; color:#4F8A8B; font-size:1.1em;">Explorar</div>
-                <div style="font-size:0.9em; color:#666;">Exploración inicial</div>
-            </div>
-        </div>
-        
-        <!-- EDA -->
-        <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em; margin-left:0;">
-            <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
-                <div style="width:1.8em; height:1.8em; border-radius:50%; background:#4F8A8B; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">3</div>
-                <div style="width:3px; height:80px; background:#4F8A8B;"></div>
-            </div>
-            <div style="padding-top:0.3em;">
-                <div style="font-weight:bold; color:#4F8A8B; font-size:1.1em;">EDA</div>
-                <div style="font-size:0.9em; color:#666;">Análisis y visualizaciones</div>
-            </div>
-        </div>
-        <!-- Cuestiones a resolver -->
-        <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em; margin-left:0;">
-            <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
-                <div style="width:1.8em; height:1.8em; border-radius:50%; background:#4F8A8B; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">4</div>
-                <div style="width:3px; height:80px; background:#4F8A8B;"></div>
-            </div>
-            <div style="padding-top:0.3em;">
-                <div style="font-weight:bold; color:#4F8A8B; font-size:1.1em;">Cuestiones a resolver</div>
-                <div style="font-size:0.9em; color:#666;">Respuestas</div>
+                <div style="font-weight:bold; color:#6B7B8C; font-size:1.1em;">Preparar datos</div>
+                <div style="font-size:0.9em; color:#999;">Limpieza y variables</div>
             </div>
         </div>
 
+    <!-- Explorar -->
+    <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em; margin-left:0;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
+            <div style="width:1.8em; height:1.8em; border-radius:50%; background:#6B7B8C; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">2</div>
+            <div style="width:3px; height:80px; background:#6B7B8C;"></div>
+        </div>
+        <div style="padding-top:0.3em;">
+            <div style="font-weight:bold; color:#6B7B8C; font-size:1.1em;">Explorar</div>
+            <div style="font-size:0.9em; color:#999;">Exploración inicial</div>
+        </div>
     </div>
+    
+    <!-- EDA -->
+    <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em; margin-left:0;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
+            <div style="width:1.8em; height:1.8em; border-radius:50%; background:#6B7B8C; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">3</div>
+            <div style="width:3px; height:80px; background:#6B7B8C;"></div>
+        </div>
+        <div style="padding-top:0.3em;">
+            <div style="font-weight:bold; color:#6B7B8C; font-size:1.1em;">EDA</div>
+            <div style="font-size:0.9em; color:#999;">Análisis y visualizaciones</div>
+        </div>
+    </div>
+    <!-- Cuestiones a resolver -->
+    <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em; margin-left:0;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
+            <div style="width:1.8em; height:1.8em; border-radius:50%; background:#6B7B8C; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">4</div>
+            <div style="width:3px; height:80px; background:#6B7B8C;"></div>
+        </div>
+        <div style="padding-top:0.3em;">
+            <div style="font-weight:bold; color:#6B7B8C; font-size:1.1em;">Cuestiones a resolver</div>
+            <div style="font-size:0.9em; color:#999;">Respuestas</div>
+        </div>
+    </div>
+
 </div>
 ```
+
 # Fase 1 (Periodo 2019-2020) {#fase1}
 
 ### Carga de Datasets
@@ -1000,7 +1000,7 @@ df_equidad
 display(HTML(df_equidad.to_html(classes="table table-striped table-hover", border=0)))
 ```
 
-Hay 8 países que han logrado la mayor equidad en términos de éxito entre sus atletas femeninos y masculinos, ya que ambos géneros han obtenido la misma cantidad de medallas. Estos países son Alemania, Azerbaiyán, Irlanda, Finlandia, Israel, Serbia y Moldavia, cada uno tiene un total de 1 medalla para cada género.
+Hay 8 países que han logrado la mayor equidad en términos de éxito entre sus atletas femeninos y masculinos, ya que ambos géneros han obtenido la misma cantidad de medallas. Estos países son Alemania, Azerbaiyán, Irlanda, Finlandia, Israel, Serbia, Moldavia, y Letonia, cada uno tiene un total de 1 medalla para cada género.
 
 ### ¿En qué país es menor la diferencia entre el promedio de puntos totales conseguidos por atletas femeninos y masculinos?
 
@@ -1018,7 +1018,9 @@ El país con la menor diferencia es Rumania, con una diferencia de 36,79 puntos 
 
 # Conclusión {#conclusiones}
 
-PONER LA CONCLUSION AQUÍ
+La halterofilia es un deporte que a lo largo de los años ha mostrado un crecimiento en la participación y el rendimiento de los atletas, tanto masculinos como femeninos. A pesar de las diferencias en puntajes entre géneros, se observa una tendencia positiva en la evolución de los resultados, lo que indica un desarrollo constante en la disciplina. A su vez, presenta diferencias significativas en el rendimiento entre atletas masculinos y femeninos, principalmente debido a las distintas categorías de peso en las que compiten. A lo largo del periodo 2019-2024, se observa una tendencia general de mejora en los puntajes totales obtenidos por ambos géneros, con picos notables en fechas específicas que coinciden con competencias importantes. Estas mejoras reflejan un aumento en la preparación y competitividad de los atletas a nivel europeo.
+
+Además, la equidad en términos de éxito entre atletas femeninos y masculinos varía entre países, con algunos logrando un balance notable en la obtención de medallas. Países como Rumania destacan por tener una menor diferencia en el promedio de puntos totales entre géneros, lo que sugiere un enfoque equilibrado en el desarrollo de ambos grupos.
 
 ```{=html}
 <div id="scrollToTopContainer" style="position: fixed; bottom: 20px; right: 20px; display: none;">
