@@ -1,0 +1,1036 @@
+---
+title: "Análisis de mercado para la apertura de centros especializados de Halterofilia"
+format:
+  html:
+    theme: morph
+    code-fold: true
+    code-tools: false
+    code-summary: "Ver código"
+    code-overflow: wrap
+    toc: true
+    toc-location: left
+    toc-depth: 2
+    embed-resources: true
+    css: styles.css
+    output-file: "index.html"
+execute:
+  echo: false
+  warning: false
+  message: false
+  error: false
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+::: {style="display:inline-block;"}
+<link href="https://cdn-icons-png.flaticon.com/128/3916/3916763.png" rel="icon">
+
+<h6>
+
+Lucía Moreno Guirado
+
+Masters in Data Analytics
+
+Module 4: Análisis Exploratorio de Datos
+
+</h6>
+
+::: {style="text-align:center"}
+ </a> <a href="https://github.com/Lucia-guirado" title="Visit my GitHub" target="_blank" class="btn btn-light" style="margin: 10px; padding: 7;"> <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" class="icon-link" width="25" height="25"/> </a> <a href="https://www.linkedin.com/in/luc%C3%ADa-moreno-guirado-402233290/" title="Visit my LinkedIn" target="_blank"class="btn btn-light" style="margin: 10px; padding: 7;"> <img src="https://cdn-icons-png.flaticon.com/512/61/61109.png" alt="LinkedIn" class="icon-link" width="25" height="25"/> </a>
+:::
+:::
+
+
+```{=html}
+<script>
+  // ============= SCROLL TO TOP =============
+  window.onscroll = () => {
+    document.getElementById("scrollToTopContainer").style.display = 
+      (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) ? "block" : "none";
+  };
+
+  function goToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+
+  // ============= GALLERY ZOOM =============
+  let zoomInitialized = false;
+  
+  function setupImageGallery() {
+    if (zoomInitialized) return; // Evitar múltiples inicializaciones
+    
+    // Usar delegación de eventos en el documento
+    document.addEventListener('click', function(e) {
+      // Buscar el contenedor de figura más cercano
+      const figure = e.target.closest('.matplotlib-figure-custom');
+      
+      if (figure) {
+        e.preventDefault();
+        console.log('Figura clickeada:', figure); // Debug
+        
+        // Buscar la imagen, SVG o canvas dentro del contenedor
+        let imgElement = figure.querySelector('img, svg, canvas');
+        
+        if (!imgElement) {
+          // Si no encuentra, tomar una captura del contenedor
+          imgElement = figure.querySelector('div > img, div > svg, div > canvas') || figure;
+        }
+        
+        console.log('Elemento imagen encontrado:', imgElement); // Debug
+        
+        createZoomModal(imgElement);
+      }
+    });
+    
+    zoomInitialized = true;
+    console.log('Sistema de zoom inicializado'); // Debug
+  }
+  
+  function createZoomModal(element) {
+    console.log('Creando modal para:', element); // Debug
+    
+    // Crear modal usando las clases CSS definidas
+    const modal = document.createElement('div');
+    modal.className = 'zoom-modal active';
+    
+    // Crear contenedor del contenido
+    const content = document.createElement('div');
+    content.className = 'zoom-content';
+    
+    // Botón de cerrar
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'zoom-close';
+    closeBtn.innerHTML = '×';
+    closeBtn.title = 'Cerrar (ESC)';
+    
+    // Clonar el elemento y asegurar que sea visible
+    const clonedElement = element.cloneNode(true);
+    
+    // Limpiar estilos que puedan interferir
+    clonedElement.style.cssText = '';
+    clonedElement.style.maxWidth = 'none';
+    clonedElement.style.maxHeight = 'none';
+    clonedElement.style.width = 'auto';
+    clonedElement.style.height = 'auto';
+    clonedElement.style.display = 'block';
+    clonedElement.style.margin = '0';
+    clonedElement.style.padding = '0';
+    clonedElement.style.border = 'none';
+    clonedElement.style.background = 'transparent';
+    clonedElement.style.position = 'static';
+    
+    // Si es SVG, asegurar dimensiones
+    if (clonedElement.tagName === 'svg') {
+      clonedElement.setAttribute('width', '100%');
+      clonedElement.setAttribute('height', 'auto');
+    }
+    
+    console.log('Elemento clonado:', clonedElement); // Debug
+    
+    // Ensamblar modal
+    content.appendChild(closeBtn);
+    content.appendChild(clonedElement);
+    modal.appendChild(content);
+    
+    // Agregar al DOM
+    document.body.appendChild(modal);
+    
+    // Forzar reflow para activar animación
+    modal.offsetHeight;
+    
+    // Prevenir scroll
+    document.body.style.overflow = 'hidden';
+    
+    console.log('Modal agregado al DOM'); // Debug
+    
+    // Función de cierre
+    const closeModal = () => {
+      console.log('Cerrando modal'); // Debug
+      modal.remove();
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleEsc);
+    };
+    
+    // Event listeners
+    closeBtn.onclick = closeModal;
+    modal.onclick = (e) => {
+      if (e.target === modal) closeModal();
+    };
+    
+    // ESC key
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') closeModal();
+    };
+    document.addEventListener('keydown', handleEsc);
+  }
+
+  // Inicialización simple
+  document.addEventListener('DOMContentLoaded', function() {
+    setupImageGallery();
+  });
+  
+  // Backup initialization
+  setTimeout(() => {
+    if (!zoomInitialized) {
+      setupImageGallery();
+    }
+  }, 2000);
+</script>
+```
+::: index
+# Índice
+
+- [1. Contexto del Problema](#contexto)
+- [2. Definición del Problema](#problema)
+- [3. Roadmap del Análisis](#roadmap)
+- [4. Fase 1 (Periodo 2019-2020)](#fase1)
+  - [4.1 Limpieza y tabla final](#limpieza1)
+  - [4.2 EDA](#eda1)
+  - [4.3 Cuestiones a resolver](#cuestiones1)
+- [5. Fase 2 (Periodo 2019-2024)](#fase2)
+  - [5.1 Limpieza y tabla final](#limpieza2)
+  - [5.2 EDA](#eda2)
+  - [5.3 Cuestiones a resolver](#cuestiones2)
+- [6. Conclusiones](#conclusiones)
+
+:::
+
+```{python}
+#| label: setup
+#| code-summary: "Configuración inicial y librerías"
+from IPython.display import HTML, display
+
+# Manipulación de datos
+import pandas as pd
+import numpy as np
+
+# Visualización de datos
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import plotly.io as pio
+pio.renderers.default = "iframe_connected"
+
+# Análisis de nulos
+import missingno as msno
+
+import os
+import re
+from fuzzywuzzy import process
+
+# Configuración de warnings
+import warnings
+warnings.filterwarnings('ignore')
+
+
+import sys
+from bs4 import BeautifulSoup
+import requests
+
+
+# ============= COLORES CENTRALIZADOS =============
+# Colores controlados por variables CSS en styles.css
+FIGURE_COLORS = {
+    'primary': '#7F8FA3',     
+    'secondary': '#9AA9BB',   
+    'accent': '#6B8EAD',     
+    'dark': '#4F5D73',        
+    'light': '#E6ECF2',      
+    'complement': '#AAB7C6'   
+}
+
+LIGHTER_BG = '#F4F7FA'
+
+# ============= CONFIGURACIÓN DE ESTILO =============
+plt.style.use('seaborn-v0_8')
+colors = list(FIGURE_COLORS.values())
+sns.set_palette(colors)
+
+# Configuración matplotlib
+plt.rcParams.update({
+    'figure.figsize': (5, 3),
+    'figure.dpi': 120,
+    'font.size': 10,
+    'axes.titlesize': 12,
+    'axes.labelsize': 10,
+    'xtick.labelsize': 9,
+    'ytick.labelsize': 9,
+    'legend.fontsize': 9,
+    'axes.prop_cycle': plt.cycler(color=colors),
+    'axes.facecolor': LIGHTER_BG,
+    'figure.facecolor': 'white',
+    'axes.edgecolor': FIGURE_COLORS['dark'],
+    'axes.linewidth': 1.2,
+    'grid.color': FIGURE_COLORS['secondary'],
+    'grid.alpha': 0.3
+})
+
+# ============= FUNCIONES HELPER =============
+import os
+import base64
+from io import BytesIO
+
+# Crear carpeta para imágenes si no existe
+os.makedirs('figures', exist_ok=True)
+
+def plot_start():
+    """Iniciar contenedor de gráfico"""
+    plt.figure(figsize=(5, 3));
+    
+def plot_end(save_name=None):
+    """Finalizar y mostrar gráfico guardando como imagen"""
+    plt.tight_layout()
+    
+    if save_name is None:
+        # Generar nombre único basado en timestamp
+        import time
+        save_name = f"fig_{int(time.time()*1000)}"
+    
+    # Guardar imagen
+    filepath = f'figures/{save_name}.png'
+    plt.savefig(filepath, dpi=150, bbox_inches='tight', 
+                facecolor='white', edgecolor='none')
+    plt.close()
+    
+    # Mostrar con etiqueta HTML
+    display(HTML(f'''
+    <div class="matplotlib-figure-custom">
+        <img src="{filepath}" alt="Figure" style="max-width: 100%; height: auto;
+        margin-top:10px;">
+    </div>
+    '''))
+
+def get_colormap():
+    """Colormap personalizado"""
+    from matplotlib.colors import LinearSegmentedColormap
+    return LinearSegmentedColormap.from_list("sage", 
+        [FIGURE_COLORS['light'], FIGURE_COLORS['primary'], FIGURE_COLORS['dark']])
+
+```
+# Contexto del Problema {#contexto}
+
+Lift & Lead es una startup interesada en abrir centros de entrenamiento especializados en halterofilia, debido al auge del crossfit el cual integra técnicas de halterofilia, sería un buen momento para invertir en centros dedicados exclusivamente a este deporte. 
+
+Lift & Lead busca validar la siguiente hipótesis que la popularidad del CrossFit está impulsando el interés por la halterofilia en Europa
+
+Por ello, han contratado nuestros servicios para:
+<div style="text-align:center; color:'#E6ECF2' ; font-size:larger; font-weight:bold; border: 2px '#6B8EAD'; padding: 10px;">
+    Analizar los resultados de los campeonatos 
+    europeos de halterofilia
+</div>
+
+# Definición del Problema {#problema}
+
+El objetivo de este análisis es ver como ha evolucionado el interés por la halterofilia en Europa en los últimos años, para ello se analizarán los resultados de los campeonatos europeos de halterofilia desde 2019 hasta 2024. 
+
+Para ello se ha dividido en dos fases, la primera siendo del periodo 2019-2020 y la segunda del periodo 2019-2024. En cada una de estas fases se realizará una carga y limpieza de datos, para posteriormente llevar a cabo un análisis exploratorio de datos (EDA), con el fin de obtener mayor conocimiento y resolver las cuestiones planteadas por el cliente.
+
+
+# Roadmap del Proyecto {#roadmap}
+
+```{=html}
+<div style="display:flex; justify-content:center; margin: 40px 0;">
+    <div style="display:flex; flex-direction:column; gap:0;">
+        <!-- Preparar datos -->
+        <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
+                <div style="width:1.8em; height:1.8em; border-radius:50%; background:#4F8A8B; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">1</div>
+                <div style="width:3px; height:80px; background:#4F8A8B;"></div>
+            </div>
+            <div style="padding-top:0.3em;">
+                <div style="font-weight:bold; color:#4F8A8B; font-size:1.1em;">Preparar datos</div>
+                <div style="font-size:0.9em; color:#666;">Limpieza y variables</div>
+            </div>
+        </div>
+        
+        <!-- Explorar -->
+        <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em; margin-left:0;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
+                <div style="width:1.8em; height:1.8em; border-radius:50%; background:#4F8A8B; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">2</div>
+                <div style="width:3px; height:80px; background:#4F8A8B;"></div>
+            </div>
+            <div style="padding-top:0.3em;">
+                <div style="font-weight:bold; color:#4F8A8B; font-size:1.1em;">Explorar</div>
+                <div style="font-size:0.9em; color:#666;">Exploración inicial</div>
+            </div>
+        </div>
+        
+        <!-- EDA -->
+        <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em; margin-left:0;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
+                <div style="width:1.8em; height:1.8em; border-radius:50%; background:#4F8A8B; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">3</div>
+                <div style="width:3px; height:80px; background:#4F8A8B;"></div>
+            </div>
+            <div style="padding-top:0.3em;">
+                <div style="font-weight:bold; color:#4F8A8B; font-size:1.1em;">EDA</div>
+                <div style="font-size:0.9em; color:#666;">Análisis y visualizaciones</div>
+            </div>
+        </div>
+        <!-- Cuestiones a resolver -->
+        <div style="display:flex; align-items:flex-start; gap:1.5em; margin-bottom:2.5em; margin-left:0;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:1em;">
+                <div style="width:1.8em; height:1.8em; border-radius:50%; background:#4F8A8B; color:white; display:flex; align-items:center; justify-content:center; font-size:1em; flex-shrink:0;">4</div>
+                <div style="width:3px; height:80px; background:#4F8A8B;"></div>
+            </div>
+            <div style="padding-top:0.3em;">
+                <div style="font-weight:bold; color:#4F8A8B; font-size:1.1em;">Cuestiones a resolver</div>
+                <div style="font-size:0.9em; color:#666;">Respuestas</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+```
+# Fase 1 (Periodo 2019-2020) {#fase1}
+
+### Carga de Datasets
+
+Para realizar el análisis, se han utilizado 2 datasets proporcionados por el cliente, que contienen información relevante sobre los campeonatos europeos de halterofilia. Estos datasets incluyen detalles sobre los eventos, medallas, atletas, año y género.
+
+```{python}
+# Cargar los diferentes datasets
+
+ruta = r'C:\Users\lucia\Documents\Master\clases\m4_exploracion_datos\entegrable_3\00_data\00_raw'
+
+lista_fichero = os.listdir(ruta)
+
+lista_fichero_todos = [fichero for fichero in lista_fichero if 'Campeonato' in fichero]
+
+print("Datasets cargados exitosamente:")
+print(lista_fichero_todos)
+
+```
+
+```{python}
+# Cargar el script de funciones
+
+ruta_biblioteca = r'C:\Users\lucia\Documents\Master\clases\m4_exploracion_datos\entegrable_3\02_scripts'
+sys.path.append(ruta_biblioteca)
+
+import funciones_limpieza as mi_biblioteca
+
+```
+
+### Descripción de Tablas
+
+Los datos se componen de dos tablas principales, cada una con el mismo enfoque pero distintos años:
+
+- **Eventos:** Información sobre el evento en el que se partricipa y su mes-día.
+
+- **Oro, Plata y Bronce:** Nombre y país del atleta que obtuvo la medalla correspondiente, junto con la puntuación obtenida en la actividad de arrancada, dos tiempos y su puntuaje final.
+
+- **Año:** Año en el que se realizó el campeonato.
+
+- **Género:** Género del atleta (masculino o femenino).
+
+
+```{python}
+# Descripción de las variables principales
+import pandas as pd
+from IPython.display import HTML, display
+
+datasets_info = pd.DataFrame({
+    'Dataset': ["Eventos", "Oro", "Plata", "Bronce", "Año", "Género"],
+    'Descripción': [
+        "Información del evento (mes-día)",
+        "Nombre y país del atleta que obtuvo la medalla de oro",
+        "Nombre y país del atleta que obtuvo la medalla de plata",
+        "Nombre y país del atleta que obtuvo la medalla de bronce",
+        "Año en el que se realizó el campeonato",
+        "Género del atleta (masculino o femenino)"
+    ],
+    'Variables_Clave': [
+        "Evento, fecha",
+        "Nombre, país y puntuación",
+        "Nombre, país y puntuación",
+        "Nombre, país y puntuación",
+        "Año",
+        "Género"
+    ]
+})
+
+# Mostrar como tabla HTML renderizada
+html_table = datasets_info.to_html(index=False, table_id="datasets_table", 
+                                  classes="table table-striped table-hover",
+                                  escape=False, border=0)
+display(HTML(html_table))
+```
+
+### Exploración inicial 
+
+Para obtener mayor información de los datasets que se ha cargado, se ha realizado una exploración inicial de los mismos, para conocer el número de filas y columnas, así como el tipo de variables que contienen. De esta manera, se puede tener una idea general de la estructura de los datos y de las posibles transformaciones que se deberán realizar posteriormente.
+
+```{python}
+dict_datos = {}
+
+for fichero in lista_fichero_todos:
+    ruta_completa = os.path.join(ruta, fichero)
+    df = mi_biblioteca.leer_archivo(ruta_completa)
+    clave = os.path.splitext(fichero)[0]
+    dict_datos[clave] = df
+```
+
+
+## Limpieza y tabla final {#limpieza1}
+
+Se han juntado ambos datasets en uno solo, para poder realizar un análisis más completo y detallado.
+
+```{python}
+df_2019 = dict_datos['Campeonato Europeo de Halterofilia de 2019 datos original'].copy()
+df_2020 = dict_datos['Campeonato Europeo de Halterofilia de 2020 datos original'].copy()
+
+df_merged = pd.concat([df_2019, df_2020], ignore_index=True).drop_duplicates()
+
+df_merged.sample(n=5)
+```
+
+A contiunuación, se han realizado las siguientes transformaciones y filtrados en los datos:
+
+- Se han separado los pesos de cada evento y su fecha de la columna 'Eventos' para quedarse con el número del peso.
+
+
+- Se han separado los nombres, paises y puntuaciones de las columnas 'Oro', 'Plata' y 'Bronce' para quedarse con nombre unicamente y poder crear la columna medalla.
+
+- Se han creado las columnas Eventos, Año, Genero, Medalla, Atleta.
+
+```{python}
+df_transformado = pd.DataFrame(columns=['Eventos', 'Año', 'Genero', 'Medalla', 'Atleta'])
+
+for _, row in df_merged.iterrows():
+ 
+    eventos = ''.join(row['Eventos'].strip().split()[0])
+
+    for medalla, atleta in zip(['Oro', 'Plata', 'Bronce'],
+                               [row['Oro'], row['Plata'], row['Bronce']]):
+
+        nombre_pais = re.split(r'\d', atleta)[0].strip().split()
+        nombre = " ".join(nombre_pais[:2])
+
+        fila = pd.DataFrame([{
+            'Eventos': eventos,
+            'Año': row['Año'],
+            'Genero': row['Genero'],
+            'Medalla': medalla,
+            'Atleta': nombre
+        }])
+
+        df_transformado = pd.concat([df_transformado, fila], ignore_index=True)
+
+
+df_transformado.head(5)
+```
+
+A partir de aquí, se crea otro dataframe donde se obtengan las siguientes columnas:
+
+- Fecha
+- Nombre
+- Apellido
+- País
+- Resultados
+- Arrancada
+- Dos tiempos
+- Total
+
+```{python}
+df_desagregado = pd.DataFrame(columns=['Fecha', 'Nombre', 'Apellido', 'Pais', 'Resultados', 'Arrancada', 'Dos_Tiempos', 'Total'])
+
+for _, row in df_merged.iterrows():
+    
+    fecha_str = row['Eventos'].split('(')[1].split(')')[0]
+    dia, mes = fecha_str.split('.')
+    fecha =pd.to_datetime((f"{row['Año']}-{mes}-{dia}"))
+
+    for atleta in [row['Oro'], row['Plata'], row['Bronce']]:
+
+        atleta = re.sub(r"\[.*?\]", '', atleta)
+
+        fila_str = re.split(r'\d', atleta)[0].strip().split()
+        nombre = fila_str[0]
+        apellido = fila_str[1]
+        pais = ' '.join(fila_str[2:])
+
+        fila_digito = re.findall(r'\d+', atleta)
+        resultados = ' = '.join(
+            [(' + '.join(fila_digito[0:2])),
+                fila_digito[2]]
+            )
+        arrancada = fila_digito[0]
+        dos_tiempos = fila_digito[1]
+        total = fila_digito[2]
+
+        fila = pd.DataFrame([{
+            'Fecha': fecha,
+            'Nombre': nombre,
+            'Apellido': apellido,
+            'Pais': pais,
+            'Resultados': resultados,
+            'Arrancada': arrancada,
+            'Dos_Tiempos': dos_tiempos,
+            'Total': total
+        }])
+
+        df_desagregado = pd.concat([df_desagregado, fila], ignore_index=True)
+
+
+df_desagregado.head(5)
+```
+
+Finalmente, se realiza un ultimo dataframe donde se tengan las siguientes columnas:
+
+- Género
+- Categoría
+- Fecha
+- Medalla
+- Nombre
+- Apellido
+- País
+- Arrancada
+- Dos tiempos
+- Total
+
+```{python}
+df_completo = mi_biblioteca.tabla_completa(df_merged)
+
+orden_categorias = ['45', '49', '55', '59', '61', '64', '67', '71', '73', '76', 
+ '81', '87', '+87', '89', '96', '102', '109', '+109']
+
+df_completo['Categoria'] = pd.Categorical(df_completo['Categoria'],
+                                          categories= orden_categorias,
+                                          ordered=True)
+
+df_completo = df_completo.sort_values(by=['Genero', 'Categoria'], ascending=[True, True]).reset_index(drop=True)
+
+df_completo. head(5)
+```
+
+## Análisis Exploratorio de Datos (EDA) {#eda1}
+
+En este apartado se realizará un análisis exploratorio de datos (EDA) para obtener una mejor comprensión del dataset final obtenido tras la limpieza y transformación de los datos. Se analizarán las principales características de las variables, su distribución y posibles relaciones entre ellas.
+
+### Diferencias entre femenino y masculino para cada una de las actividades (Arrancada, Dos tiempos, Total)
+
+En la siguiente figura se observa la comparación entre los puntos obtenidos en cada actividad (arrancada y dos tiempos), y su total por los atletas masculinos y femeninos.
+
+```{python}
+fig_dif_arrancada_f1 = mi_biblioteca.px_box(df_completo, 'Genero', 'Arrancada', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_dif_arrancada_f1)
+```
+
+```{python}
+fig_dif_dostiempos_f1 =mi_biblioteca.px_box(df_completo, 'Genero', 'Dos_Tiempos', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_dif_dostiempos_f1)
+```
+
+```{python}
+fig_df_total_f1 = mi_biblioteca.px_box(df_completo, 'Genero', 'Total', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_df_total_f1)
+```
+
+Como muestran las figuras, en la actividad de arrancada, se observa que los atletas masculinos tienden a obtener puntajes más altos en comparación con las atletas femeninas en todas las categorías. Esta tendencia se mantiene en la actividad de dos tiempos, donde nuevamente los hombres superan a las mujeres en términos de puntajes. Ocurre los mismo para el puntuaje total, donde los atletas masculinos puntúan más alto que el de las atletas femeninas. Esta diferencia puede atribuirse a las distintas categorías de peso en las que participa cada género, donde los hombres suelen competir en categorías de peso más altas, lo que puede influir en los puntos obtenidos.
+
+### Puntaje obtenido por medalla
+
+En la siguiente figura se observa la comparación entre los puntos obtenidos en total, y su total por las medallas de oro, plata y bronce.
+
+```{python}
+fig_dif_medalla_total_f1 = mi_biblioteca.px_box(df_completo, 'Medalla', 'Total', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_dif_medalla_total_f1)
+```
+
+La diferencia entre las medallas es mínima, la medalla de oro tiene un puntaje ligeramente más alto que la de plata, y la medalla de plata tiene un puntaje ligeramente más alto que la de bronce. Esto indica que los atletas que ganan medallas de oro tienden a obtener puntajes más altos en comparación con aquellos que ganan medallas de plata y bronce, aunque la diferencia no es muy pronunciada.
+
+### Total de medallas por país
+
+En la siguiente figura se observa el total de medallas obtenidas por cada país en los años 2019 y 2020.
+
+```{python}
+fig_medallas_pais_f1 = mi_biblioteca.px_countplot_by_category(df_completo, 'Pais', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_medallas_pais_f1)
+```
+
+Como muestra la figura, el país con mayor número de medallas es Rusia, con 20 medallas, seguido de Armenia con 15 medallas y Bulgaria con 12 medallas.
+
+### Evolución temporal de promedio de puntuaje total por género
+
+En las figuras se muestra la evolución del promedio de puntos totales por año y género.
+
+```{python}
+figuras_año = mi_biblioteca.px_total_por_fecha_por_año(df_completo, 'Fecha', 'Total', 'Genero', color_palette=px.colors.qualitative.Pastel)
+
+for fig in figuras_año:
+    fig.show()
+```
+
+Las figuras muestran que en general, tanto para femenino como masculino, la evolución de puntos totales va aumentando en ambos años. En la divisiñon femenina se observa un aumento más pronunciado en comparación con la masculina, habiendo un pico notable en 2020, en concreto el 12 de abril, donde se alcanzan los valores más altos de puntos totales. Esto podría indicar un evento o competencia significativa que impulsó el rendimiento de los atletas en esa fecha específica.
+
+En cuanto a la división masculina, aunque también se observa una tendencia al alza en los puntos totales, el aumento es más gradual y menos pronunciado que en la femenina. No hay picos tan destacados como en la división femenina, lo que sugiere una competencia más constante a lo largo del tiempo.
+
+### Top 3 atletas con mayor puntaje total por género en el periodo 2019-2020
+
+Creamos dos dataframes que separen los atletas masculinos y femeninos con su total, ordenados de mayor a menor total, para obtener el top 3 del periodo 2019-2020.
+
+```{python}
+df_top = df_completo.copy()
+df_top['Nombre_completo'] = df_top['Nombre'] + ' ' + df_top['Apellido']
+df_top_10_masc = df_top[df_top['Genero'] == 'Masculino'].groupby('Nombre_completo')['Total'].max().reset_index().sort_values(by='Total', ascending=False)
+df_top_10_fem = df_top[df_top['Genero'] == 'Femenino'].groupby('Nombre_completo')['Total'].max().reset_index().sort_values(by='Total', ascending=False)
+```
+
+```{python}
+fig_top3_masc_fase1 = mi_biblioteca.top_n_bar(df_top_10_masc, 'Nombre_completo', 'Total', n=3, color_palette=px.colors.qualitative.Pastel, titulo='Top 3 atletas masculinos por total')
+
+display(fig_top3_masc_fase1)
+```
+
+```{python}
+fig_top3_fem_fase1 = mi_biblioteca.top_n_bar(df_top_10_fem, 'Nombre_completo', 'Total', n=3, color_palette=px.colors.qualitative.Pastel, titulo='Top 3 atletas femeninas por total')
+
+display(fig_top3_fem_fase1)
+```
+
+En las figuras se muestran los 3 mejores atletas masculinos y femeninos en el periodo 2019-2020. Se obbserva que en los masculinos la diferencia de puntuación entre los tres es menor que para las mujeres, donde la primera clasificada tiene una puntuación mayor, de unos 55 puntos más que la segunda y de unos 63 que la tercera. En cuanto a los hombres, la diferencia entre el primero y segundo clasificado es de 21 puntos, y entre el segundo y tercer clasificado es de 17 puntos. Se puede concluir que en ambos géneros, la competencia es bastante reñida, pero las mujeres muestran una mayor disparidad entre el primer y segundo lugar en comparación con los hombres, y en ambos generos existe una tendencia a que los puntajes sean más cercanos entre el segundo y tercer lugar.
+
+# Cuestiones a resolver {#cuestiones1}
+
+### ¿Cuántas medallas de cada tipo (oro, plata y bronce) ha ganado cada país en la competición? (Sin considerar el género)
+
+Sin considerar el género, el total de medallas ganadas por cada país en la competición es el siguiente:
+
+```{python}
+df_pais_medalla = df_completo.groupby('Pais')['Medalla'].value_counts().unstack(fill_value=0)
+df_pais_medalla
+display(HTML(df_pais_medalla.to_html(classes="table table-striped table-hover", border=0)))
+```
+
+Para la medalla de oro Ucrania es el país que ha obtenido más con un total de 5 medallas, seguido de Rusia, Rumania y Bulgaria con 4 medallas cada uno. En cuanto a la medalla de plata, Rusia es el país que ha obtenido más con un total de 9 medallas, seguido de Bulgaria con 5 medallas. Finalmente, para la medalla de bronce, Rusia es nuevamente el país que ha obtenido más con un total de 7 medallas, seguido de Turquía con 5 medallas.
+
+### ¿Qué país ha logrado la mayor equidad en términos de éxito entre sus atletas femeninos y masculinos?
+
+La equidad en términos de éxito entre atletas femeninos y masculinos se puede medir comparando el número de medallas ganadas por cada género en cada país. Para ello se suman el total de medallas ganadas por cada género y se calcula la diferencia absoluta entre ambos.
+
+```{python}
+df_equidad = df_completo.groupby('Pais')['Genero'].value_counts().unstack(fill_value=0)
+df_equidad['Diferencia'] = abs(df_equidad['Femenino']-df_equidad['Masculino'])
+df_equidad = df_equidad.sort_values(by='Diferencia')
+df_equidad
+display(HTML(df_equidad.to_html(classes="table table-striped table-hover", border=0)))
+```
+
+Hay tres países que han logrado la mayor equidad en términos de éxito entre sus atletas femeninos y masculinos, ya que ambos géneros han obtenido la misma cantidad de medallas. Estos países son Alemania, Azerbaiyán y Moldavia, cada uno tiene un total de 1 medalla para cada género.
+
+### ¿En qué país es menor la diferencia entre el promedio de puntos totales conseguidos por atletas femeninos y masculinos?
+
+La diferencia entre el promedio de puntos totales conseguidos por atletas femeninos y masculinos se obtiene calculando el promedio de puntos totales para cada género en cada país y luego restando estos promedios.
+
+```{python}
+df_dif_puntos = df_completo.groupby(['Pais','Genero'])['Total'].mean().round(2).unstack(fill_value=0)
+df_dif_puntos['Diferencia'] = abs(df_dif_puntos['Femenino']-df_dif_puntos['Masculino'])
+df_dif_puntos = df_dif_puntos.sort_values(by='Diferencia')
+df_dif_puntos
+display(HTML(df_dif_puntos.to_html(classes="table table-striped table-hover", border=0)))
+```
+
+El país con la menor diferencia es Rumania, con una diferencia de 35 puntos entre atletas femeninos y masculinos. Esto indica que en Rumania, el rendimiento de los atletas femeninos y masculinos es bastante similar en términos de puntos totales obtenidos.
+
+:::
+
+# Fase 2 (Periodo 2019-2024) {#fase2}
+
+### Carga de Datasets
+
+Para realizar el análisis de esta fase, los datasets no han sido proporcionados por el cliente. Por lo tanto, se han obtenido de las páginas web oficiales de Wikipedia de los campeonatos europeos de halterofilia de los años 2022, 2023 y 2024. Estos datasets contienen información relevante sobre los eventos, medallas, atletas, año y género.
+
+```{python}
+# Cargar los diferentes datasets
+
+url1 = 'https://es.wikipedia.org/wiki/Campeonato_Europeo_de_Halterofilia_de_2022'
+url2 = 'https://es.wikipedia.org/wiki/Campeonato_Europeo_de_Halterofilia_de_2023'
+url3 = 'https://es.wikipedia.org/wiki/Campeonato_Europeo_de_Halterofilia_de_2024'
+
+lista_urls = [url1, url2, url3]
+dict_ficheros = {}
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                  "AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/120.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
+    "Connection": "keep-alive",
+}
+
+for url in lista_urls:
+    page = requests.get(url, headers = headers)
+    print(page.status_code)
+    html = page.text
+
+    año = url.split('_')[-1]
+
+    lista_tablas = pd.read_html(html)
+
+    for i, tabla in enumerate(lista_tablas):
+        if tabla.columns.to_list()[0] == 'Evento':
+            tabla['Año'] = año
+            if ('45' in tabla['Evento'].iloc[0]) & ('49' in tabla['Evento'].iloc[1]):
+                tabla['Genero'] = 'Femenino'
+            else:
+                tabla['Genero'] = 'Masculino'
+            tabla = tabla.apply(lambda x: x.str.replace('[n 1]', ''))
+            tabla.columns = ['Evento', 'Oro', 'Plata', 'Bronce', 'Año', 'Genero']
+            dict_ficheros[año + '_' + str(i)] = tabla
+
+```
+
+
+### Descripción de Tablas
+
+Los datos de estas tablas tienen la misma estructura que los de la fase 1, con las siguientes variables principales:
+
+- **Eventos:** Información sobre el evento en el que se partricipa y su mes-día.
+
+- **Oro, Plata y Bronce:** Nombre y país del atleta que obtuvo la medalla correspondiente, junto con la puntuación obtenida en la actividad de arrancada, dos tiempos y su puntuaje final.
+
+- **Año:** Año en el que se realizó el campeonato.
+
+- **Género:** Género del atleta (masculino o femenino).
+
+
+### Exploración inicial 
+
+Para obtener mayor información de los datasets que se ha cargado, se ha realizado una exploración inicial de los mismos, para conocer el número de filas y columnas, así como el tipo de variables que contienen. De esta manera, se puede tener una idea general de la estructura de los datos y de las posibles transformaciones que se deberán realizar posteriormente.
+
+## Limpieza y tabla final {#limpieza1}
+
+Se han juntado los datasets, tanto los de la fase 1 como los de la fase 2 en uno solo, para poder realizar un análisis más completo y detallado.
+
+```{python}
+df_merged2 = pd.concat(dict_ficheros.values(), ignore_index=True)
+df_merged2['Eventos'] = df_merged2['Evento']
+df_merged2 = df_merged2.drop('Evento', axis=1)
+df_total = pd.concat([df_merged, df_merged2], ignore_index=True)
+df_total.sample(n=5)
+```
+
+A contiunuación, se han realizado las siguientes transformaciones y filtrados en los datos:
+
+- Se han separado los pesos de cada evento y su fecha de la columna 'Eventos' para quedarse con el número del peso.
+
+
+- Se han separado los nombres, paises y puntuaciones de las columnas 'Oro', 'Plata' y 'Bronce' para quedarse con nombre unicamente y poder crear la columna medalla.
+
+- Se han creado las columnas Eventos, Año, Genero, Medalla, Atleta.
+
+```{python}
+df_total_transformado = mi_biblioteca.transformar_medallas(df_total)
+
+df_transformado.head(5)
+```
+
+A partir de aquí, se crea otro dataframe donde se obtengan las siguientes columnas:
+
+- Fecha
+- Nombre
+- Apellido
+- País
+- Resultados
+- Arrancada
+- Dos tiempos
+- Total
+
+```{python}
+df_total_desagregado = mi_biblioteca.desagregar_resultados(df_total)
+
+df_total_desagregado.head(5)
+```
+
+Finalmente, se realiza un ultimo dataframe donde se tengan las siguientes columnas:
+
+- Género
+- Categoría
+- Fecha
+- Medalla
+- Nombre
+- Apellido
+- País
+- Arrancada
+- Dos tiempos
+- Total
+
+```{python}
+df_total_final = mi_biblioteca.tabla_completa2(df_total)
+
+orden_categorias = ['45', '49', '55', '59', '61', '64', '67', '71', '73', '76', 
+ '81', '87', '+87', '89', '96', '102', '109', '+109']
+
+df_total_final['Categoria'] = pd.Categorical(df_total_final['Categoria'],
+                                          categories= orden_categorias,
+                                          ordered=True)
+
+df_total_final = df_total_final.sort_values(by=['Genero', 'Categoria'], ascending=[True, True]).reset_index(drop=True)
+
+df_total_final. head(5)
+```
+
+## Análisis Exploratorio de Datos (EDA) {#eda1}
+
+En este apartado se realizará un análisis exploratorio de datos (EDA) para obtener una mejor comprensión del dataset final obtenido tras la limpieza y transformación de los datos. Se analizarán las principales características de las variables, su distribución y posibles relaciones entre ellas.
+
+### Diferencias entre femenino y masculino para cada una de las actividades (Arrancada, Dos tiempos, Total)
+
+En la siguiente figura se observa la comparación entre los puntos obtenidos en cada actividad (arrancada y dos tiempos), y su total por los atletas masculinos y femeninos.
+
+```{python}
+fig_dif_arrancada_f2 = mi_biblioteca.px_box(df_total_final, 'Genero', 'Arrancada', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_dif_arrancada_f2)
+```
+
+```{python}
+fig_dif_dostiempos_f2 =mi_biblioteca.px_box(df_total_final, 'Genero', 'Dos_Tiempos', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_dif_dostiempos_f2)
+```
+
+```{python}
+fig_df_total_f2 = mi_biblioteca.px_box(df_total_final, 'Genero', 'Total', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_df_total_f2)
+```
+
+Como muestran las figuras, en la actividad de arrancada, se observa que los atletas masculinos tienden a obtener puntajes más altos en comparación con las atletas femeninas en todas las categorías. Esta tendencia se mantiene en la actividad de dos tiempos, donde nuevamente los hombres superan a las mujeres en términos de puntajes. Ocurre los mismo para el puntuaje total, donde los atletas masculinos puntúan más alto que el de las atletas femeninas. Esta diferencia puede atribuirse a las distintas categorías de peso en las que participa cada género, donde los hombres suelen competir en categorías de peso más altas, lo que puede influir en los puntos obtenidos.
+
+### Puntaje obtenido por medalla
+
+En la siguiente figura se observa la comparación entre los puntos obtenidos en total, y su total por las medallas de oro, plata y bronce.
+
+```{python}
+fig_dif_medalla_total_f2 = mi_biblioteca.px_box(df_total_final, 'Medalla', 'Total', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_dif_medalla_total_f2)
+```
+
+La diferencia entre las medallas es mínima, la medalla de oro tiene un puntaje ligeramente más alto, media de 267 puntos, que la de plata, media de 252 puntos, y la medalla de plata tiene un puntaje ligeramente más alto que la de bronce, media de 243,5 puntos. Esto indica que los atletas que ganan medallas de oro tienden a obtener puntajes más altos en comparación con aquellos que ganan medallas de plata y bronce, aunque la diferencia no es muy pronunciada.
+
+### Total de medallas por país
+
+En la siguiente figura se observa el total de medallas obtenidas por cada país en los años 2019 y 2020.
+
+```{python}
+fig_medallas_pais_f2 = mi_biblioteca.px_countplot_by_category(df_total_final, 'Pais', color_palette=px.colors.qualitative.Pastel)
+
+display(fig_medallas_pais_f2)
+```
+
+Como muestra la figura, el país con mayor número de medallas es Rusia, con 20 medallas, seguido de Armenia con 15 medallas y Armenia con 44 medallas. En esta fase hay un mayor número de medallas debido a que los años inculidos en el período son más (2019-2024).
+
+### Evolución temporal de promedio de puntuaje total por género
+
+En las figuras se muestra la evolución del promedio de puntos totales por año y género.
+
+```{python}
+figuras_año = mi_biblioteca.px_total_por_fecha_por_año(df_total_final, 'Fecha', 'Total', 'Genero', color_palette=px.colors.qualitative.Pastel)
+
+for fig in figuras_año:
+    fig.show()
+```
+
+La gráfica muestra el total de puntos obtenidos por competidoras femeninas en halterofilia entre 2019 y 2024. Se observa que 2019 tuvo el pico más alto, cerca de 1,370 puntos, mientras que 2020 y 2024 presentan valores iniciales altos seguidos de descensos y luego un incremento moderado. Los años 2022 y 2023 comienzan con totales más bajos, alrededor de 600-620 puntos, y muestran un crecimiento gradual. 
+
+Cada año se concentra en fechas específicas: febrero para 2024, abril para 2019 y 2020, mediados de abril para 2023, y finales de mayo-principios de junio para 2022, lo que refleja distintas competencias. En general, se aprecia un patrón de picos en competencias importantes y un progreso gradual en algunos años, indicando mejoras consistentes en el rendimiento promedio femenino.
+
+En cuanto a los atletas masculinos, en términos generales, los datos muestran una tendencia de crecimiento con variaciones marcadas entre años. El 2019 destaca por presentar el pico más alto de todo el periodo, con un incremento muy pronunciado hacia abril, lo que sugiere un rendimiento excepcional o una competencia de alto nivel en ese momento. En 2020 y 2023 también se aprecian aumentos importantes, aunque más moderados y con fluctuaciones intermedias. 
+
+El año 2024 muestra valores iniciales más estables, con un aumento notable hacia finales del periodo observado, mientras que 2022 presenta un crecimiento progresivo que culmina en un valor alto a inicios de junio. En conjunto, la gráfica refleja mejoras significativas en el rendimiento a lo largo de los años, aunque con comportamientos irregulares que podrían estar asociados a factores como la preparación, el calendario competitivo o el nivel de participación.
+
+### Top 3 atletas con mayor puntaje total por género en el periodo 2019-2020
+
+Creamos dos dataframes que separen los atletas masculinos y femeninos con su total, ordenados de mayor a menor total, para obtener el top 3 del periodo 2019-2020.
+
+```{python}
+df_top_fase2 = df_total_final.copy()
+df_top_fase2['Nombre_completo'] = df_top_fase2['Nombre'] + ' ' + df_top_fase2['Apellido']
+df_top_10_masc_f2 = df_top_fase2[df_top_fase2['Genero'] == 'Masculino'].groupby('Nombre_completo')['Total'].max().reset_index().sort_values(by='Total', ascending=False)
+df_top_10_fem_f2 = df_top_fase2[df_top_fase2['Genero'] == 'Femenino'].groupby('Nombre_completo')['Total'].max().reset_index().sort_values(by='Total', ascending=False)
+```
+
+```{python}
+fig_top3_masc_fase2 = mi_biblioteca.top_n_bar(df_top_10_masc_f2, 'Nombre_completo', 'Total', n=3, color_palette=px.colors.qualitative.Pastel, titulo='Top 3 atletas masculinos por total')
+
+display(fig_top3_masc_fase2)
+```
+
+```{python}
+fig_top3_fem_fase2 = mi_biblioteca.top_n_bar(df_top_10_fem_f2, 'Nombre_completo', 'Total', n=3, color_palette=px.colors.qualitative.Pastel, titulo='Top 3 atletas femeninas por total')
+
+display(fig_top3_fem_fase2)
+```
+
+En las figuras se muestran los 3 mejores atletas masculinos y femeninos en el periodo 2019-2024. Se observa que en los masculinos la diferencia de puntuación entre los tres es menor que para las mujeres, donde la primera clasificada tiene una puntuación mayor, de unos 51 puntos más que la segunda y de unos 55 que la tercera. La diferencia entre la segunda y tercera clasificada es de solo 4 puntos. En cuanto a los hombres, la diferencia entre el primero y segundo clasificado es de 21 puntos, y entre el segundo y tercer clasificado es de 2 puntos. Se puede concluir que en ambos géneros, la competencia es bastante reñida, pero las mujeres muestran una mayor disparidad entre el primer y segundo lugar en comparación con los hombres, y en ambos generos existe una tendencia a que los puntajes sean más cercanos entre el segundo y tercer lugar.
+
+# Cuestiones a resolver {#cuestiones1}
+
+### ¿Cuántas medallas de cada tipo (oro, plata y bronce) ha ganado cada país en la competición? (Sin considerar el género)
+
+Sin considerar el género, el total de medallas ganadas por cada país en la competición es el siguiente:
+
+```{python}
+df_pais_medalla = df_total_final.groupby('Pais')['Medalla'].value_counts().unstack(fill_value=0)
+df_pais_medalla
+display(HTML(df_pais_medalla.to_html(classes="table table-striped table-hover", border=0)))
+```
+
+Para la medalla de oro Bulgaria es el país que ha obtenido más con un total de 15 medallas, seguido de Armenia y Ucrania con 14 y 11 medallas respectivamente. En cuanto a la medalla de plata, Georgia y Armenia son los países que han obtenido más con un total de 13 medallas cada uno, seguido de Ucrania con 11 medallas. Finalmente, para la medalla de bronce, Armenia es nuevamente el país que ha obtenido más con un total de 17 medallas, seguido de Turquía con 11 medallas.
+
+### ¿Qué país ha logrado la mayor equidad en términos de éxito entre sus atletas femeninos y masculinos?
+
+La equidad en términos de éxito entre atletas femeninos y masculinos se puede medir comparando el número de medallas ganadas por cada género en cada país. Para ello se suman el total de medallas ganadas por cada género y se calcula la diferencia absoluta entre ambos.
+
+```{python}
+df_equidad = df_total_final.groupby('Pais')['Genero'].value_counts().unstack(fill_value=0)
+df_equidad['Diferencia'] = abs(df_equidad['Femenino']-df_equidad['Masculino'])
+df_equidad = df_equidad.sort_values(by='Diferencia')
+df_equidad
+display(HTML(df_equidad.to_html(classes="table table-striped table-hover", border=0)))
+```
+
+Hay 8 países que han logrado la mayor equidad en términos de éxito entre sus atletas femeninos y masculinos, ya que ambos géneros han obtenido la misma cantidad de medallas. Estos países son Alemania, Azerbaiyán, Irlanda, Finlandia, Israel, Serbia y Moldavia, cada uno tiene un total de 1 medalla para cada género.
+
+### ¿En qué país es menor la diferencia entre el promedio de puntos totales conseguidos por atletas femeninos y masculinos?
+
+La diferencia entre el promedio de puntos totales conseguidos por atletas femeninos y masculinos se obtiene calculando el promedio de puntos totales para cada género en cada país y luego restando estos promedios.
+
+```{python}
+df_dif_puntos = df_total_final.groupby(['Pais','Genero'])['Total'].mean().round(2).unstack(fill_value=0)
+df_dif_puntos['Diferencia'] = abs(df_dif_puntos['Femenino']-df_dif_puntos['Masculino'])
+df_dif_puntos = df_dif_puntos.sort_values(by='Diferencia').applymap(lambda x: f"{x:.2f}")
+df_dif_puntos
+display(HTML(df_dif_puntos.to_html(classes="table table-striped table-hover", border=0)))
+```
+
+El país con la menor diferencia es Rumania, con una diferencia de 36,79 puntos entre atletas femeninos y masculinos. Esto indica que en Rumania, el rendimiento de los atletas femeninos y masculinos es bastante similar en términos de puntos totales obtenidos.
+
+:::
+
+# Conclusión {#conclusiones}
+
+PONER LA CONCLUSION AQUÍ
+
+```{=html}
+<div id="scrollToTopContainer" style="position: fixed; bottom: 20px; right: 20px; display: none;">
+  <button onclick="goToTop()" id="btnScrollToTop" type="button" class="btn">
+    ↑
+  </button>
+</div>
+```
+
+
+

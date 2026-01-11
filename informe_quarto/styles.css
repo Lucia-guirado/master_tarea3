@@ -1,0 +1,282 @@
+/* =========================================================
+   BLUE GRAY THEME VARIABLES
+   (Same structure as original Sage theme)
+   ========================================================= */
+
+/* =========================
+   Body and General Styling
+   ========================= */
+body {
+  background: linear-gradient(135deg, var(--sage-light) 0%, #F2F6FA 100%);
+  color: var(--sage-text);
+  font-family: 'Georgia', serif;
+}
+
+.fullcontent {
+  background: linear-gradient(135deg, var(--sage-light) 0%, #F2F6FA 100%);
+  text-align: justify;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+p {
+  color: var(--sage-text);
+  margin: 10px 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* =========================
+   Headings
+   ========================= */
+h2, h3, h4, h5, h6 {
+  color: var(--sage-dark);
+  border-bottom: 2px solid var(--sage-primary);
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+h6[style*="text-align:center"] {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 8px !important;
+  font-size: 16px;
+  color: var(--sage-dark);
+  font-weight: 600;
+}
+
+h1 {
+  position: sticky;
+  top: 20px;
+  background: linear-gradient(
+    90deg,
+    var(--sage-primary) 0%,
+    var(--sage-secondary) 100%
+  );
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(63, 78, 99, 0.35);
+  z-index: 1000;
+  margin-bottom: 25px;
+  border: none;
+  text-align: center;
+}
+
+/* =========================
+   Gallery Figure Styling
+   ========================= */
+.plotly-graph-div .svg-container {
+  border: 10px solid var(--figure-primary);
+  margin: 25px auto !important;
+  box-shadow: 0 6px 20px var(--figure-shadow);
+}
+
+.matplotlib-figure-custom {
+  border: 2px solid var(--figure-border);
+  border-radius: 8px;
+  padding: 8px;
+  margin: 12px auto;
+  background: var(--figure-background);
+  box-shadow: 0 3px 10px var(--figure-shadow);
+  text-align: center;
+  width: 90%;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.matplotlib-figure-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--figure-shadow);
+  border-color: var(--figure-primary);
+}
+
+.matplotlib-figure-custom::after {
+  content: "🔍 Clic para ampliar";
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: rgba(63, 78, 99, 0.85);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.matplotlib-figure-custom:hover::after {
+  opacity: 1;
+}
+
+/* =========================
+   Matplotlib Overrides
+   ========================= */
+.matplotlib-figure-custom svg,
+.matplotlib-figure-custom canvas {
+  background-color: var(--matplotlib-face-color) !important;
+}
+
+.matplotlib-figure-custom .figure-title,
+.plot-container .plot-title {
+  color: var(--matplotlib-text-color);
+  font-weight: bold;
+}
+
+/* =========================================================
+   CENTRALIZED COLOR SYSTEM
+   ========================================================= */
+:root {
+  /* Base blue-gray palette */
+  --sage-primary:   #6E7F95;
+  --sage-secondary: #8FA1B8;
+  --sage-light:     #E3EAF1;
+  --sage-dark:      #3F4E63;
+  --sage-accent:    #5F84A2;
+  --sage-text:      #2E3A48;
+
+  /* Tables */
+  --table-border-color: var(--sage-primary);
+  --table-background: white;
+  --table-header-bg-start: var(--sage-primary);
+  --table-header-bg-end: var(--sage-secondary);
+  --table-header-text: white;
+  --table-cell-border: var(--sage-light);
+  --table-stripe-bg: var(--sage-light);
+  --table-hover-bg: var(--sage-secondary);
+  --table-hover-text: white;
+  --table-shadow: rgba(63, 78, 99, 0.25);
+
+  /* Figures */
+  --figure-primary: #6E7F95;
+  --figure-secondary: #8FA1B8;
+  --figure-accent: #5F84A2;
+  --figure-dark: #3F4E63;
+  --figure-light: #E3EAF1;
+  --figure-complement: #A6B3C3;
+
+  --figure-border: var(--figure-primary);
+  --figure-background: white;
+  --figure-shadow: rgba(63, 78, 99, 0.25);
+
+  /* Matplotlib */
+  --matplotlib-face-color: #F2F6FA;
+  --matplotlib-edge-color: var(--figure-dark);
+  --matplotlib-grid-color: var(--figure-secondary);
+  --matplotlib-text-color: var(--figure-dark);
+
+  /* Chart palette */
+  --chart-color-1: var(--figure-primary);
+  --chart-color-2: var(--figure-secondary);
+  --chart-color-3: var(--figure-accent);
+  --chart-color-4: var(--figure-dark);
+  --chart-color-5: var(--figure-light);
+  --chart-color-6: var(--figure-complement);
+}
+
+/* =========================
+   Tables
+   ========================= */
+.table,
+table,
+#datasets_table,
+#recomendaciones_table {
+  border: 2px solid var(--table-border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px var(--table-shadow);
+  margin: 20px auto;
+  background: var(--table-background);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th,
+table th {
+  background: linear-gradient(
+    90deg,
+    var(--table-header-bg-start) 0%,
+    var(--table-header-bg-end) 100%
+  );
+  color: var(--table-header-text);
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  text-align: left;
+}
+
+.table td,
+table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--table-cell-border);
+}
+
+.table-striped tbody tr:nth-of-type(odd),
+table tbody tr:nth-of-type(odd) {
+  background-color: var(--table-stripe-bg);
+}
+
+.table-hover tbody tr:hover,
+table tbody tr:hover {
+  background-color: var(--table-hover-bg);
+  color: var(--table-hover-text);
+}
+
+/* =========================
+   Links & Buttons
+   ========================= */
+a {
+  color: var(--sage-dark);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--sage-primary);
+}
+
+.btn-light {
+  background: linear-gradient(45deg, var(--sage-light) 0%, white 100%);
+  border: 2px solid var(--sage-primary);
+  color: var(--sage-dark);
+}
+
+.btn-light:hover {
+  background: linear-gradient(45deg, var(--sage-primary), var(--sage-secondary));
+  color: white;
+  box-shadow: 0 4px 12px rgba(63, 78, 99, 0.35);
+}
+
+/* =========================
+   Code Blocks
+   ========================= */
+pre, code {
+  background: var(--sage-light);
+  border: 1px solid var(--sage-primary);
+  border-radius: 6px;
+}
+
+/* =========================
+   Scroll to Top
+   ========================= */
+#scrollToTopContainer button {
+  background: linear-gradient(
+    45deg,
+    var(--sage-primary),
+    var(--sage-secondary)
+  );
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  box-shadow: 0 4px 15px rgba(63, 78, 99, 0.45);
+}
+
+/* =========================
+   Modal Zoom System
+   ========================= */
+.zoom-modal {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
