@@ -742,8 +742,6 @@ display(HTML(df_dif_puntos.to_html(classes="table table-striped table-hover", bo
 
 El país con la menor diferencia es Rumania, con una diferencia de 35 puntos entre atletas femeninos y masculinos. Esto indica que en Rumania, el rendimiento de los atletas femeninos y masculinos es bastante similar en términos de puntos totales obtenidos.
 
-:::
-
 # Fase 2 (Periodo 2019-2024) {#fase2}
 
 ### Carga de Datasets
@@ -1017,8 +1015,6 @@ display(HTML(df_dif_puntos.to_html(classes="table table-striped table-hover", bo
 ```
 
 El país con la menor diferencia es Rumania, con una diferencia de 36,79 puntos entre atletas femeninos y masculinos. Esto indica que en Rumania, el rendimiento de los atletas femeninos y masculinos es bastante similar en términos de puntos totales obtenidos.
-
-:::
 
 # Conclusión {#conclusiones}
 
